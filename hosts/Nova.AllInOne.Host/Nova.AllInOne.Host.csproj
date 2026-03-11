@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <RootNamespace>Nova.AllInOne.Host</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\shared\Nova.Shared.Hosting\Nova.Shared.Hosting.csproj" />
+    <ProjectReference Include="..\..\shared\Nova.Shared.SqlSugar\Nova.Shared.SqlSugar.csproj" />
+    <ProjectReference Include="..\..\services\tenant\Nova.TenantService\Nova.TenantService.Application\Nova.TenantService.Application.csproj" />
+    <ProjectReference Include="..\..\services\identity\Nova.IdentityService\Nova.IdentityService.Application\Nova.IdentityService.Application.csproj" />
+    <ProjectReference Include="..\..\services\system\Nova.SystemService\Nova.SystemService.Application\Nova.SystemService.Application.csproj" />
+    <ProjectReference Include="..\..\services\system\Nova.SystemService\Nova.SystemService.Host\Nova.SystemService.Host.csproj" />
+    <ProjectReference Include="..\..\services\business\Nova.BusinessService\Nova.BusinessService.Application\Nova.BusinessService.Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Hangfire.Storage.MySql" Version="2.1.0-beta" />
+    <PackageReference Include="Volo.Abp.BackgroundJobs.Hangfire" Version="8.3.1" />
+  </ItemGroup>
+
+</Project>
