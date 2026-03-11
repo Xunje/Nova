@@ -4,11 +4,11 @@ namespace Nova.SystemService.Core.IServices;
 
 public interface IWechatAppService
 {
-    Task<string> GetOfficialAccountAccessTokenAsync();
-    Task<long?> SendTemplateMessageAsync(SendOfficialAccountTemplateMessageInput input);
-    Task SendCustomTextMessageAsync(SendOfficialAccountCustomMessageInput input);
-    Task<WechatPayPrepayDto> CreateJsapiPayAsync(CreateWechatJsapiPayInput input);
-    Task<WechatPayCallbackResultDto> HandlePayCallbackAsync(WechatPayCallbackHeaders headers, string body);
-    string VerifyOfficialAccountUrlAsync(WechatOfficialAccountCallbackQuery query);
-    Task<WechatOfficialAccountMessageResultDto> HandleOfficialAccountMessageAsync(WechatOfficialAccountCallbackQuery query, string body);
+    Task<string> GetMpTokenAsync();
+    Task<long?> SendTemplateAsync(SendOfficialAccountTemplateMessageInput input);
+    Task SendKfTextAsync(SendOfficialAccountCustomMessageInput input);
+    Task<WechatPayPrepayDto> JsapiPayAsync(CreateWechatJsapiPayInput input);
+    Task<WechatPayCallbackResultDto> NotifyPayAsync(WechatPayCallbackHeaders headers, string body);
+    string VerifyMpAsync(WechatOfficialAccountCallbackQuery query);
+    Task<WechatOfficialAccountMessageResultDto> NotifyMpAsync(WechatOfficialAccountCallbackQuery query, string body);
 }

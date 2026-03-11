@@ -17,23 +17,37 @@ public class WechatCallbackController : ControllerBase
         _wechatAppService = wechatAppService;
     }
 
-    [HttpGet("official-account")]
-    public ActionResult<string> VerifyOfficialAccount([FromQuery] WechatOfficialAccountCallbackQuery query)
+    /// <summary>
+    /// 公众号接入校验
+    /// </summary>
+    /// <param name="query">微信回调查询参数</param>
+    /// <returns>返回微信要求的校验串</returns>
+    [HttpGet("mp")]
+    public ActionResult<string> VerifyMp([FromQuery] WechatOfficialAccountCallbackQuery query)
     {
-        return Content(_wechatAppService.VerifyOfficialAccountUrlAsync(query), "text/plain");
+        return Content(_wechatAppService.VerifyMpAsync(query), "text/plain");
     }
 
-    [HttpPost("official-account")]
-    public async Task<ActionResult<string>> HandleOfficialAccount([FromQuery] WechatOfficialAccountCallbackQuery query)
+    /// <summary>
+    /// 公众号消息回调
+    /// </summary>
+    /// <param name="query">微信回调查询参数</param>
+    /// <returns>公众号响应 XML</returns>
+    [HttpPost("mp")]
+    public async Task<ActionResult<string>> NotifyMp([FromQuery] WechatOfficialAccountCallbackQuery query)
     {
         using var reader = new StreamReader(Request.Body);
         var body = await reader.ReadToEndAsync();
-        var result = await _wechatAppService.HandleOfficialAccountMessageAsync(query, body);
+        var result = await _wechatAppService.NotifyMpAsync(query, body);
         return Content(result.ResponseXml, "application/xml");
     }
 
+    /// <summary>
+    /// 微信支付回调
+    /// </summary>
+    /// <returns>微信支付回调响应</returns>
     [HttpPost("pay")]
-    public async Task<IActionResult> HandlePay()
+    public async Task<IActionResult> NotifyPay()
     {
         using var reader = new StreamReader(Request.Body);
         var body = await reader.ReadToEndAsync();
@@ -45,7 +59,7 @@ public class WechatCallbackController : ControllerBase
             SerialNumber = Request.Headers["Wechatpay-Serial"].ToString()
         };
 
-        await _wechatAppService.HandlePayCallbackAsync(headers, body);
+        await _wechatAppService.NotifyPayAsync(headers, body);
         return Ok(new { code = "SUCCESS", message = "成功" });
     }
 }

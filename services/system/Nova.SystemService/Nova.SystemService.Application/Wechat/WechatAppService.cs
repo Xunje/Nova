@@ -28,7 +28,11 @@ public class WechatAppService : ApplicationService, IWechatAppService
         _db = db;
     }
 
-    public async Task<string> GetOfficialAccountAccessTokenAsync()
+    /// <summary>
+    /// 获取公众号令牌
+    /// </summary>
+    /// <returns>公众号 access_token</returns>
+    public async Task<string> GetMpTokenAsync()
     {
         if (string.IsNullOrWhiteSpace(_options.OfficialAccount.AppId) || string.IsNullOrWhiteSpace(_options.OfficialAccount.AppSecret))
             throw new UserFriendlyException("未配置微信公众号参数");
@@ -45,7 +49,12 @@ public class WechatAppService : ApplicationService, IWechatAppService
         return response.AccessToken;
     }
 
-    public async Task<long?> SendTemplateMessageAsync(SendOfficialAccountTemplateMessageInput input)
+    /// <summary>
+    /// 发送模板消息
+    /// </summary>
+    /// <param name="input">模板消息参数</param>
+    /// <returns>微信消息 ID</returns>
+    public async Task<long?> SendTemplateAsync(SendOfficialAccountTemplateMessageInput input)
     {
         if (string.IsNullOrWhiteSpace(_options.OfficialAccount.AppId) || string.IsNullOrWhiteSpace(_options.OfficialAccount.AppSecret))
             throw new UserFriendlyException("未配置微信公众号参数");
@@ -75,7 +84,11 @@ public class WechatAppService : ApplicationService, IWechatAppService
         return response.MessageId;
     }
 
-    public async Task SendCustomTextMessageAsync(SendOfficialAccountCustomMessageInput input)
+    /// <summary>
+    /// 发送客服消息
+    /// </summary>
+    /// <param name="input">客服文本消息参数</param>
+    public async Task SendKfTextAsync(SendOfficialAccountCustomMessageInput input)
     {
         if (string.IsNullOrWhiteSpace(_options.OfficialAccount.AppId) || string.IsNullOrWhiteSpace(_options.OfficialAccount.AppSecret))
             throw new UserFriendlyException("未配置微信公众号参数");
@@ -96,7 +109,12 @@ public class WechatAppService : ApplicationService, IWechatAppService
             throw new UserFriendlyException($"发送客服消息失败：{response.ErrorCode}-{response.ErrorMessage}");
     }
 
-    public async Task<WechatPayPrepayDto> CreateJsapiPayAsync(CreateWechatJsapiPayInput input)
+    /// <summary>
+    /// JSAPI 下单
+    /// </summary>
+    /// <param name="input">支付下单参数</param>
+    /// <returns>预支付信息与前端调起参数</returns>
+    public async Task<WechatPayPrepayDto> JsapiPayAsync(CreateWechatJsapiPayInput input)
     {
         var client = CreateTenpayClient();
         var request = new CreatePayTransactionJsapiRequest
@@ -142,7 +160,13 @@ public class WechatAppService : ApplicationService, IWechatAppService
         };
     }
 
-    public async Task<WechatPayCallbackResultDto> HandlePayCallbackAsync(WechatPayCallbackHeaders headers, string body)
+    /// <summary>
+    /// 处理支付回调
+    /// </summary>
+    /// <param name="headers">微信支付回调请求头</param>
+    /// <param name="body">微信支付回调原始报文</param>
+    /// <returns>回调处理结果</returns>
+    public async Task<WechatPayCallbackResultDto> NotifyPayAsync(WechatPayCallbackHeaders headers, string body)
     {
         var client = CreateTenpayClient();
         if (!client.VerifyEventSignature(headers.Timestamp, headers.Nonce, body, headers.Signature, headers.SerialNumber))
@@ -177,7 +201,12 @@ public class WechatAppService : ApplicationService, IWechatAppService
         };
     }
 
-    public string VerifyOfficialAccountUrlAsync(WechatOfficialAccountCallbackQuery query)
+    /// <summary>
+    /// 校验公众号回调地址
+    /// </summary>
+    /// <param name="query">公众号回调查询参数</param>
+    /// <returns>微信要求返回的 echostr</returns>
+    public string VerifyMpAsync(WechatOfficialAccountCallbackQuery query)
     {
         var client = CreateOfficialAccountClient();
         if (!client.VerifyEventSignatureForEcho(query.Timestamp, query.Nonce, query.Signature))
@@ -186,7 +215,13 @@ public class WechatAppService : ApplicationService, IWechatAppService
         return query.EchoStr ?? string.Empty;
     }
 
-    public async Task<WechatOfficialAccountMessageResultDto> HandleOfficialAccountMessageAsync(WechatOfficialAccountCallbackQuery query, string body)
+    /// <summary>
+    /// 处理公众号消息回调
+    /// </summary>
+    /// <param name="query">公众号回调查询参数</param>
+    /// <param name="body">公众号回调原始报文</param>
+    /// <returns>公众号回包结果</returns>
+    public async Task<WechatOfficialAccountMessageResultDto> NotifyMpAsync(WechatOfficialAccountCallbackQuery query, string body)
     {
         var client = CreateOfficialAccountClient();
         if (!client.VerifyEventSignatureFromXml(body, query.Timestamp, query.Nonce, query.MsgSignature ?? query.Signature))
@@ -201,8 +236,8 @@ public class WechatAppService : ApplicationService, IWechatAppService
 
         if (!string.IsNullOrWhiteSpace(fromUser) && _options.OfficialAccount.ForwardToCustomService && !string.IsNullOrWhiteSpace(content))
         {
-            var accessToken = await GetOfficialAccountAccessTokenAsync();
-            await SendCustomTextMessageAsync(new SendOfficialAccountCustomMessageInput
+            var accessToken = await GetMpTokenAsync();
+            await SendKfTextAsync(new SendOfficialAccountCustomMessageInput
             {
                 AccessToken = accessToken,
                 ToUserOpenId = fromUser,

@@ -105,9 +105,14 @@ public class AccountAppService : ApplicationService, IAccountAppService
         };
     }
 
+    /// <summary>
+    /// 小程序登录
+    /// </summary>
+    /// <param name="input">小程序登录参数</param>
+    /// <returns>系统登录态与微信用户标识</returns>
     [AllowAnonymous]
-    [HttpPost("login-by-mini-program")]
-    public async Task<WechatLoginDto> LoginByMiniProgramAsync(WechatMiniProgramLoginInput input)
+    [HttpPost("mini-login")]
+    public async Task<WechatLoginDto> MiniLoginAsync(WechatMiniProgramLoginInput input)
     {
         if (string.IsNullOrWhiteSpace(_wechatOptions.MiniProgram.AppId) || string.IsNullOrWhiteSpace(_wechatOptions.MiniProgram.AppSecret))
             throw new UserFriendlyException("未配置微信小程序参数");
@@ -137,9 +142,14 @@ public class AccountAppService : ApplicationService, IAccountAppService
         return loginResult;
     }
 
+    /// <summary>
+    /// 公众号登录
+    /// </summary>
+    /// <param name="input">公众号登录参数</param>
+    /// <returns>系统登录态与微信用户标识</returns>
     [AllowAnonymous]
-    [HttpPost("login-by-official-account")]
-    public async Task<WechatLoginDto> LoginByOfficialAccountAsync(WechatOfficialAccountLoginInput input)
+    [HttpPost("mp-login")]
+    public async Task<WechatLoginDto> MpLoginAsync(WechatOfficialAccountLoginInput input)
     {
         if (string.IsNullOrWhiteSpace(_wechatOptions.OfficialAccount.AppId) || string.IsNullOrWhiteSpace(_wechatOptions.OfficialAccount.AppSecret))
             throw new UserFriendlyException("未配置微信公众号参数");

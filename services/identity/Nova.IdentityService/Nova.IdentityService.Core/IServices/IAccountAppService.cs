@@ -5,7 +5,7 @@ namespace Nova.IdentityService.Core.IServices;
 public interface IAccountAppService
 {
     Task<LoginOutputDto> LoginAsync(LoginInput input);
-    Task<WechatLoginDto> LoginByMiniProgramAsync(WechatMiniProgramLoginInput input);
-    Task<WechatLoginDto> LoginByOfficialAccountAsync(WechatOfficialAccountLoginInput input);
+    Task<WechatLoginDto> MiniLoginAsync(WechatMiniProgramLoginInput input);
+    Task<WechatLoginDto> MpLoginAsync(WechatOfficialAccountLoginInput input);
     Task<CurrentUserAccessDto> GetCurrentAsync();
 }
