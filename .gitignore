@@ -1,0 +1,49 @@
+# Build outputs
+[Bb]in/
+[Oo]bj/
+out/
+publish/
+TestResults/
+artifacts/
+
+# IDE
+.vs/
+.idea/
+.vscode/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Rider / ReSharper
+_ReSharper*/
+*.DotSettings.user
+
+# Logs
+*.log
+logs/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+
+# Coverage
+coverage/
+coverage-*/
+*.coverage
+*.coveragexml
+
+# Generated
+*.generated.cs
+
+# Local env
+.env
+.env.*
+
+# Publish profiles local secrets
+*.pubxml.user

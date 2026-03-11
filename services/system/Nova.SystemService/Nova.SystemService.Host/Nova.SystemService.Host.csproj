@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <RootNamespace>Nova.SystemService.Host</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Nova.SystemService.Application\Nova.SystemService.Application.csproj" />
+    <ProjectReference Include="..\..\..\..\shared\Nova.Shared.Hosting\Nova.Shared.Hosting.csproj" />
+    <ProjectReference Include="..\..\..\..\shared\Nova.Shared.SqlSugar\Nova.Shared.SqlSugar.csproj" />
+  </ItemGroup>
+
+</Project>

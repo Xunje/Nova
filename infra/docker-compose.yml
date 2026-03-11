@@ -1,0 +1,94 @@
+version: '3.8'
+services:
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: "123456"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  redis:
+    image: redis:7-alpine
+    command: redis-server --requirepass 123456
+    ports:
+      - "6379:6379"
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  consul:
+    image: consul:1.15
+    command: agent -dev -client=0.0.0.0
+    ports:
+      - "8500:8500"
+
+  gateway:
+    build:
+      context: ..
+      dockerfile: gateway/Nova.Gateway/Dockerfile
+    ports:
+      - "8000:8080"
+    depends_on:
+      - identity-service
+      - tenant-service
+      - system-service
+      - business-service
+
+  identity-service:
+    build:
+      context: ..
+      dockerfile: services/identity/Nova.IdentityService/Nova.IdentityService.Host/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      ConnectionStrings__Default: "Server=mysql;Database=nova_identity;Uid=root;Pwd=123456;"
+    depends_on:
+      - mysql
+      - redis
+
+  tenant-service:
+    build:
+      context: ..
+      dockerfile: services/tenant/Nova.TenantService/Nova.TenantService.Host/Dockerfile
+    ports:
+      - "8082:8080"
+    environment:
+      ConnectionStrings__Default: "Server=mysql;Database=nova_tenant;Uid=root;Pwd=123456;"
+    depends_on:
+      - mysql
+      - redis
+
+  system-service:
+    build:
+      context: ..
+      dockerfile: services/system/Nova.SystemService/Nova.SystemService.Host/Dockerfile
+    ports:
+      - "8081:8080"
+    environment:
+      ConnectionStrings__Default: "Server=mysql;Database=nova_system;Uid=root;Pwd=123456;"
+    depends_on:
+      - mysql
+      - redis
+
+  business-service:
+    build:
+      context: ..
+      dockerfile: services/business/Nova.BusinessService/Nova.BusinessService.Host/Dockerfile
+    ports:
+      - "8083:8080"
+    environment:
+      ConnectionStrings__Default: "Server=mysql;Database=nova_business;Uid=root;Pwd=123456;"
+    depends_on:
+      - mysql
+      - redis
+
+volumes:
+  mysql_data:

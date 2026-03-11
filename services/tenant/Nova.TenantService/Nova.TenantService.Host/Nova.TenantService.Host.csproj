@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <RootNamespace>Nova.TenantService.Host</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Nova.TenantService.Application\Nova.TenantService.Application.csproj" />
+    <ProjectReference Include="..\..\..\..\shared\Nova.Shared.Hosting\Nova.Shared.Hosting.csproj" />
+  </ItemGroup>
+
+</Project>

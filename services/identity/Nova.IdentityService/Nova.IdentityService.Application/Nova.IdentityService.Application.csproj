@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Nova.IdentityService.Application</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="UAParser" Version="3.1.47" />
+    <PackageReference Include="Volo.Abp.Ddd.Application" Version="8.3.1" />
+    <PackageReference Include="Volo.Abp.EventBus" Version="8.3.1" />
+    <PackageReference Include="SqlSugarCore" Version="5.1.4.214" />
+    <PackageReference Include="Mapster" Version="7.4.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />
+    <PackageReference Include="SKIT.FlurlHttpClient.Wechat.Api" Version="3.14.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Nova.IdentityService.Core\Nova.IdentityService.Core.csproj" />
+    <ProjectReference Include="..\..\..\..\shared\Nova.Shared.EventBus\Nova.Shared.EventBus.csproj" />
+    <ProjectReference Include="..\..\..\..\shared\Nova.Shared.Hosting\Nova.Shared.Hosting.csproj" />
+    <ProjectReference Include="..\..\..\..\shared\Nova.Shared.SqlSugar.Abstractions\Nova.Shared.SqlSugar.Abstractions.csproj" />
+    <ProjectReference Include="..\..\..\system\Nova.SystemService\Nova.SystemService.Core\Nova.SystemService.Core.csproj" />
+    <ProjectReference Include="..\..\..\system\Nova.SystemService\Nova.SystemService.Application\Nova.SystemService.Application.csproj" />
+  </ItemGroup>
+
+</Project>

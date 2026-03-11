@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Nova.SystemService.Core</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\shared\Nova.Shared.SqlSugar.Abstractions\Nova.Shared.SqlSugar.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>
