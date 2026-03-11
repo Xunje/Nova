@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using SKIT.FlurlHttpClient.Wechat.Api;
 using SKIT.FlurlHttpClient.Wechat.Api.Models;
@@ -18,7 +19,7 @@ using Volo.Abp;
 using Volo.Abp.Application.Services;
 using Volo.Abp.MultiTenancy;
 using Volo.Abp.Security.Claims;
-using Nova.IdentityService.Application.Wechat;
+using Nova.IdentityService.Core.Wechat;
 
 namespace Nova.IdentityService.Application.Accounts;
 
@@ -105,6 +106,7 @@ public class AccountAppService : ApplicationService, IAccountAppService
     }
 
     [AllowAnonymous]
+    [HttpPost("login-by-mini-program")]
     public async Task<WechatLoginDto> LoginByMiniProgramAsync(WechatMiniProgramLoginInput input)
     {
         if (string.IsNullOrWhiteSpace(_wechatOptions.MiniProgram.AppId) || string.IsNullOrWhiteSpace(_wechatOptions.MiniProgram.AppSecret))
@@ -136,6 +138,7 @@ public class AccountAppService : ApplicationService, IAccountAppService
     }
 
     [AllowAnonymous]
+    [HttpPost("login-by-official-account")]
     public async Task<WechatLoginDto> LoginByOfficialAccountAsync(WechatOfficialAccountLoginInput input)
     {
         if (string.IsNullOrWhiteSpace(_wechatOptions.OfficialAccount.AppId) || string.IsNullOrWhiteSpace(_wechatOptions.OfficialAccount.AppSecret))

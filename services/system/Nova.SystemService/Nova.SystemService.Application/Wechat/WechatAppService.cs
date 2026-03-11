@@ -5,6 +5,7 @@ using Microsoft.Extensions.Options;
 using Nova.SystemService.Core.Dtos.Wechat;
 using Nova.SystemService.Core.Entities;
 using Nova.SystemService.Core.IServices;
+using Nova.SystemService.Core.Wechat;
 using SKIT.FlurlHttpClient.Wechat.Api;
 using SKIT.FlurlHttpClient.Wechat.Api.Models;
 using SKIT.FlurlHttpClient.Wechat.TenpayV3;

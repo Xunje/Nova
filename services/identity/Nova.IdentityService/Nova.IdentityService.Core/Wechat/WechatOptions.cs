@@ -1,4 +1,4 @@
-namespace Nova.IdentityService.Application.Wechat;
+namespace Nova.IdentityService.Core.Wechat;
 
 public class WechatOptions
 {

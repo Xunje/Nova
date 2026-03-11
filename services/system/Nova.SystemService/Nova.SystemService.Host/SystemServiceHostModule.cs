@@ -10,7 +10,6 @@ using Nova.SystemService.Application.Seeds;
 using Nova.SystemService.Core.Consts;
 using Nova.SystemService.Core.Entities;
 using Nova.SystemService.Core.Security;
-using Nova.SystemService.Core.Entities;
 using Nova.SystemService.Host.Controllers;
 using SqlSugar;
 using Volo.Abp;
